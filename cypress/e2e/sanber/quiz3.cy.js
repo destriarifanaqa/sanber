@@ -1,0 +1,61 @@
+describe ('Pengguna dapat melakukan login', () => {
+    it('Login dengan valid username dan valid password', () =>{
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 15000}) 
+        //^^saya tambahkan durasi 15 detik sebelum akhirnya timeout sehingga testing tetap bisa dilanjutkan apabila terjadi error atau internet lambat
+        cy.get('[name="username"]').type('Admin').should('have.value', 'Admin')
+        cy.get('[name="password"]').type('admin123').should('have.value', 'admin123')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-topbar-header-breadcrumb > .oxd-text').should('contain', 'Dashboard')
+    })
+    it('Login dengan password salah', () => {
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000})
+        cy.get('[name="username"]').type('Admin').should('have.value', 'Admin')
+        cy.get('[name="password"]').type('false123').should('have.value', 'false123')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-alert-content > .oxd-text').should('have.text', 'Invalid credentials')
+    })
+    it('Login dengan username salah', () => {
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000})
+        cy.get('[name="username"]').type('false').should('have.value', 'false')
+        cy.get('[name="password"]').type('admin123').should('have.value', 'admin123')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-alert-content > .oxd-text').should('have.text', 'Invalid credentials')
+    })
+    it('Login dengan username dan password kosong', () => {
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000})
+        cy.get('[name="username"]').clear()
+        cy.get('[name="password"]').clear()
+        cy.get('.oxd-button').click()
+        cy.get(':nth-child(2) > .oxd-input-group > .oxd-text').should('have.text', 'Required')
+        //selector ini dipilih berdasarkan suggestion dari cypress dan karena selector lain terlalu panjang 
+        cy.get(':nth-child(3) > .oxd-input-group > .oxd-text').should('have.text', 'Required')
+    })
+    it('Login dengan username kosong', () => {
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000})
+        cy.get('[name="username"]').clear()
+        cy.get('[name="password"]').type('admin123').should('have.value', 'admin123')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-input-group > .oxd-text').should('have.text', 'Required')
+    })
+    it('Login dengan password kosong', () => {
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000})
+        cy.get('[name="username"]').type('Admin').should('have.value', 'Admin')
+        cy.get('[name="password"]').clear()
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-input-group > .oxd-text').should('have.text', 'Required')
+    })
+    it('Login dengan spasi setelah valid username', () =>{
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000}) 
+        cy.get('[name="username"]').type('Admin ').should('have.value', 'Admin ')
+        cy.get('[name="password"]').type('admin123').should('have.value', 'admin123')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-topbar-header-breadcrumb > .oxd-text').should('contain', 'Dashboard')
+    })
+    it('Login dengan spasi di tengah username', () =>{
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 5000}) 
+        cy.get('[name="username"]').type('Ad min').should('have.value', 'Ad min')
+        cy.get('[name="password"]').type('admin123').should('have.value', 'admin123')
+        cy.get('.oxd-button').click()
+        cy.get('.oxd-alert-content > .oxd-text').should('have.text', 'Invalid credentials')
+    })
+})
