@@ -1,6 +1,7 @@
-import FiturLogin from "../../support/pageObjects/loginPage.js"
 import loginData from "../../fixtures/loginData.json"
-import loginPage from "../../support/pageObjects/loginPage.js"
+import LoginClass from "../../support/pageObjects/loginPOM.js"
+
+const loginPage = new LoginClass()
 
 describe ('Pengguna dapat melakukan login', () => {
     it('Login dengan valid username dan valid password', () =>{

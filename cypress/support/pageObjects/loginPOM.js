@@ -1,4 +1,4 @@
-class FiturLogin{
+class LoginClass{
     visitPage(){
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', {timeout: 60000}) 
     }
@@ -31,4 +31,4 @@ class FiturLogin{
     }
 }
 
-export default new FiturLogin
+export default LoginClass
