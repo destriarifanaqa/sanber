@@ -1,0 +1,8 @@
+{
+    "validUSN": "Admin",
+    "spcUSN": "Admin ",
+    "spcBtwUSN": "Ad min",
+    "validPSW": "admin123",
+    "invalidUSN": "false",
+    "invalidPSW": "false123"
+}
